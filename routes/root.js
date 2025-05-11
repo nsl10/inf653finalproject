@@ -18,7 +18,7 @@ router.route('/states/')
             try{
                 const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
                 myObj = JSON.parse(data);
-                res.json(data);
+                res.send(data);
             }catch{
                 console.log('statesData file error');
             }
