@@ -149,7 +149,7 @@ router.route('/states/:state/nickname')
                 }
                 
             }catch{
-                console.log('statesData file error');
+                res.json({"message":"Invalid state abbreviation parameter"});
             }
         }
         nickname();
@@ -174,7 +174,7 @@ router.route('/states/:state/population')
                     res.json({ "state": state, "population": populations });
                 }
             }catch{
-                console.log('statesData file error');
+                res.json({"message":"Invalid state abbreviation parameter"});
             }
         }
         population();
@@ -198,7 +198,7 @@ router.route('/states/:state/admission')
                     res.json({ "state": state, "admitted": admissions });
                 }
             }catch{
-                console.log('statesData file error');
+                res.json({"message":"Invalid state abbreviation parameter"});
             }
         }
         admission();
@@ -214,27 +214,22 @@ router.route('/states/:state')
                 const filteredArray = data2.filter(item => item.code === idToFilter);
 
                 state = filteredArray[0].state;
-                console.log(typeof filteredArray)
+                
                 
                 if (state === ''){
                     res.json({"message":"Invalid state abbreviation parameter"});
                 }else{
-                    res.json(filteredArray);
+                    res.json(filteredArray[0]);
                 }
                 
             }catch{
-                console.log('statesData file error');
+                res.json({"message":"Invalid state abbreviation parameter"});
             }
         }
         const stateCode = req.params.state;
         console.log(stateCode);
         stateRequest();
         //res.json({ "state": req.params.state});
-    })
-
-router.route('/states/:state')
-    .get((req, res) => {
-        res.send(path.join(__dirname, '..', 'welcome.html'))
     })
 
 module.exports = router;

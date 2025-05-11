@@ -25,7 +25,6 @@ app.use((req, res, next) => {
 console.log(path.join(__dirname));
 app.use('/', require('./routes/root'));
 
-
 app.all('/{*any}', (req, res) => {
     res.status(404);
     if (req.accepts('html')) {
