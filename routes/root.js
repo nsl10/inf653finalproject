@@ -17,7 +17,8 @@ router.route('/states/')
         const readRequest = async () => {
             try{
                 const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                res.json(data);
+                myObj = JSON.parse(data);
+                res.send(data);
             }catch{
                 console.log('statesData file error');
             }
@@ -130,10 +131,10 @@ router.route('/states/:state/capital')
                 const filteredArray = myObj.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 city = filteredArray[0].capital_city;
-                
-                res.json({ "state": state, "capital": city });
+                console.log(typeof res.json({ "state": state, "capital": city }));
+                res.json({ 'state': state, 'capital': city });
             }catch{
-                console.log('statesData file error');
+                console.log('statesData capital file error');
             }
         }
         capital();
