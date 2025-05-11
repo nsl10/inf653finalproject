@@ -138,7 +138,7 @@ router.route('/states/:state/capital')
                 const filteredArray = myObj.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 city = filteredArray[0].capital_city;
-                res.status(200).json({ "state": state, "capital": city });
+                res.status(200).json({"state":state,"capital":city});
                 
                 
             }catch(err){
