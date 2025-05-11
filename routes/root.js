@@ -85,10 +85,13 @@ router.route('/states/:state/funfact')
         //const getfunfacts = async (req, res) => {
         const allFunFacts = FunFact.find();
         if (!allFunFacts) return res.status(204).json({ 'message': 'No Fun Facts found for ...'});
-        console.log(allFunFacts);
+        //console.log(allFunFacts);
         //}
         //console.log(getfunfacts());
         console.log('funfact');
+        console.log(typeof req.params.state);
+        console.log(typeof { "state": req.params.state });
+
         res.json({ "state": req.params.state });
     })
     //post here
@@ -122,22 +125,33 @@ router.route('/states/:state/capital')
     .get((req, res) => {
         const capital = async () => {
             try{
-
+                console.log(path.join(__dirname, '..', 'files', 'statesData.json'));
                 const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
+                
+                //console.log(data);
+                //Promise.resolve(data);
+                
                 myObj = JSON.parse(data);
-
+                
                 const idToFilter = req.params.state;
 
                 const filteredArray = myObj.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 city = filteredArray[0].capital_city;
-                console.log(typeof res.json({ "state": state, "capital": city }));
-                res.json({ "state": state, "capital": city });
-            }catch{
+                res.status(200).json({ "state": state, "capital": city });
+                
+                
+            }catch(err){
                 console.log('statesData capital file error');
+                console.error(err);
             }
         }
         capital();
+        //.then(
+        //    (data) => {
+        //        console.log(data);
+        //    }
+        //);
     })
 // nickname
 router.route('/states/:state/nickname')
