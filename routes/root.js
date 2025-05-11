@@ -131,7 +131,7 @@ router.route('/states/:state/capital')
                 state = filteredArray[0].state;
                 city = filteredArray[0].capital_city;
                 
-                res.send({ "state": state, "capital": city });
+                res.json({ "state": state, "capital": city });
             }catch{
                 console.log('statesData file error');
             }
