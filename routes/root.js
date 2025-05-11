@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 
 
-
+/*
 router.route('/states/')
     .get((req, res) => {
         
@@ -79,6 +79,7 @@ router.route('/states/')
         
        //console.log('ran')
     });
+*/
 router.route('/states/:state/funfact')
     
     .get((req, res) => {
