@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.",
-  "main": "index.js",
+  "main": "server",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "keywords": [],
   "author": "",
