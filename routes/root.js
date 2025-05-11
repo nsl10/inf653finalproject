@@ -5,7 +5,7 @@ const fsPromises = require('fs').promises;
 const FunFact = require('../Files/FunFacts');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-
+const data2 = require('../Files/statesData.json');
 
 
 
@@ -16,9 +16,7 @@ router.route('/states/')
 
         const readRequest = async () => {
             try{
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
-                res.send(data);
+                res.send(data2);
             }catch{
                 console.log('statesData file error');
             }
@@ -26,13 +24,10 @@ router.route('/states/')
         const readRequestFalse = async () => {
             try{
 
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
-
                 const idToFilter = "AK";
                 const idToFilter2 = "HI";
 
-                const filteredArray = myObj.filter(item => item.code === idToFilter || item.code === idToFilter2);
+                const filteredArray = data2.filter(item => item.code === idToFilter || item.code === idToFilter2);
 
                 
                 res.send(filteredArray);
@@ -44,18 +39,10 @@ router.route('/states/')
         const readRequestTrue = async () => {
             try{
 
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
-                const array = [
-                { id: 1, name: 'Alice' },
-                { id: 2, name: 'Bob' },
-                { id: 3, name: 'Charlie' }
-                ];
-
                 const idToFilter = "AK";
                 const idToFilter2 = "HI";
 
-                const filteredArray = myObj.filter(item => item.code !== idToFilter || item.code !== idToFilter2);
+                const filteredArray = data2.filter(item => item.code !== idToFilter && item.code !== idToFilter2);
 
                 
                 res.send(filteredArray);
@@ -125,50 +112,42 @@ router.route('/states/:state/capital')
     .get((req, res) => {
         const capital = async () => {
             try{
-                console.log(path.join(__dirname, '..', 'files', 'statesData.json'));
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                
-                //console.log(data);
-                //Promise.resolve(data);
-                
-                myObj = JSON.parse(data);
-                
-                const idToFilter = req.params.state;
+                const idToFilter = req.params.state.toUpperCase();
 
-                const filteredArray = myObj.filter(item => item.code === idToFilter);
+                const filteredArray = data2.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
-                city = filteredArray[0].capital_city;
-                res.json({ "state": req.params.state });
+                city = filteredArray[0].capital_city
+                if (state === ''){
+                    res.json({"message":"Invalid state abbreviation parameter"});
+                }else{
+                    res.json({ "state": state, "capital": city });
+                }
                 
                 
             }catch(err){
-                console.log('statesData capital file error');
+                res.json({"message":"Invalid state abbreviation parameter"});
                 console.error(err);
             }
         }
         capital();
-        //.then(
-        //    (data) => {
-        //        console.log(data);
-        //    }
-        //);
     })
 // nickname
 router.route('/states/:state/nickname')
     .get((req, res) => {
         const nickname = async () => {
             try{
+                const idToFilter = req.params.state.toUpperCase();
 
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
+                const filteredArray = data2.filter(item => item.code === idToFilter);
 
-                const idToFilter = req.params.state;
-
-                const filteredArray = myObj.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 nicknamed = filteredArray[0].nickname;
+                if (state === ''){
+                    res.json({"message":"Invalid state abbreviation parameter"});
+                }else{
+                    res.json({ "state": state, "nickname": nicknamed });
+                }
                 
-                res.json({ "state": state, "nickname": nicknamed });
             }catch{
                 console.log('statesData file error');
             }
@@ -181,16 +160,19 @@ router.route('/states/:state/population')
         const population = async () => {
             try{
 
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
+                const idToFilter = req.params.state.toUpperCase();
 
-                const idToFilter = req.params.state;
-
-                const filteredArray = myObj.filter(item => item.code === idToFilter);
+                const filteredArray = data2.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 populations = filteredArray[0].population;
+                populations = populations.toLocaleString('en-US');
                 
-                res.json({ "state": state, "population": populations });
+                
+                if (state === ''){
+                    res.json({"message":"Invalid state abbreviation parameter"});
+                }else{
+                    res.json({ "state": state, "population": populations });
+                }
             }catch{
                 console.log('statesData file error');
             }
@@ -203,16 +185,18 @@ router.route('/states/:state/admission')
         const admission = async () => {
             try{
 
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
+                const idToFilter = req.params.state.toUpperCase();
 
-                const idToFilter = req.params.state;
-
-                const filteredArray = myObj.filter(item => item.code === idToFilter);
+                const filteredArray = data2.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 admissions = filteredArray[0].admission_date;
                 
-                res.json({ "state": state, "admitted": admissions });
+                
+                if (state === ''){
+                    res.json({"message":"Invalid state abbreviation parameter"});
+                }else{
+                    res.json({ "state": state, "admitted": admissions });
+                }
             }catch{
                 console.log('statesData file error');
             }
@@ -225,14 +209,19 @@ router.route('/states/:state')
         const stateRequest = async () => {
             try{
 
-                const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                myObj = JSON.parse(data);
+                const idToFilter = req.params.state.toUpperCase();
 
-                const idToFilter = stateCode;
+                const filteredArray = data2.filter(item => item.code === idToFilter);
 
-                const filteredArray = myObj.filter(item => item.code === idToFilter);
-
-                res.json(filteredArray);
+                state = filteredArray[0].state;
+                console.log(typeof filteredArray)
+                
+                if (state === ''){
+                    res.json({"message":"Invalid state abbreviation parameter"});
+                }else{
+                    res.json(filteredArray);
+                }
+                
             }catch{
                 console.log('statesData file error');
             }
@@ -241,6 +230,11 @@ router.route('/states/:state')
         console.log(stateCode);
         stateRequest();
         //res.json({ "state": req.params.state});
+    })
+
+router.route('/states/:state')
+    .get((req, res) => {
+        res.send(path.join(__dirname, '..', 'welcome.html'))
     })
 
 module.exports = router;
