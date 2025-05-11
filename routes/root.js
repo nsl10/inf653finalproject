@@ -17,6 +17,7 @@ router.route('/states/')
         const readRequest = async () => {
             try{
                 const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
+                myObj = JSON.parse(data);
                 res.send(data);
             }catch{
                 console.log('statesData file error');
@@ -130,10 +131,10 @@ router.route('/states/:state/capital')
                 const filteredArray = myObj.filter(item => item.code === idToFilter);
                 state = filteredArray[0].state;
                 city = filteredArray[0].capital_city;
-                
-                res.send({ "state": state, "capital": city });
+                console.log(typeof res.json({ "state": state, "capital": city }));
+                res.json({ "state": state, "capital": city });
             }catch{
-                console.log('statesData file error');
+                console.log('statesData capital file error');
             }
         }
         capital();
@@ -153,7 +154,7 @@ router.route('/states/:state/nickname')
                 state = filteredArray[0].state;
                 nicknamed = filteredArray[0].nickname;
                 
-                res.send({ "state": state, "nickname": nicknamed });
+                res.json({ "state": state, "nickname": nicknamed });
             }catch{
                 console.log('statesData file error');
             }
@@ -175,7 +176,7 @@ router.route('/states/:state/population')
                 state = filteredArray[0].state;
                 populations = filteredArray[0].population;
                 
-                res.send({ "state": state, "population": populations });
+                res.json({ "state": state, "population": populations });
             }catch{
                 console.log('statesData file error');
             }
@@ -197,7 +198,7 @@ router.route('/states/:state/admission')
                 state = filteredArray[0].state;
                 admissions = filteredArray[0].admission_date;
                 
-                res.send({ "state": state, "admitted": admissions });
+                res.json({ "state": state, "admitted": admissions });
             }catch{
                 console.log('statesData file error');
             }
@@ -205,7 +206,7 @@ router.route('/states/:state/admission')
         admission();
     })
 
-    router.route('/states/:state')
+router.route('/states/:state')
     .get((req, res) => {
         const stateRequest = async () => {
             try{
@@ -217,7 +218,7 @@ router.route('/states/:state/admission')
 
                 const filteredArray = myObj.filter(item => item.code === idToFilter);
 
-                res.send(filteredArray);
+                res.json(filteredArray);
             }catch{
                 console.log('statesData file error');
             }
@@ -227,7 +228,6 @@ router.route('/states/:state/admission')
         stateRequest();
         //res.json({ "state": req.params.state});
     })
-
 
 module.exports = router;
 
