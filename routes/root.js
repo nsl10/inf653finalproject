@@ -79,7 +79,7 @@ router.route('/states/')
         
        //console.log('ran')
     });
-*/
+
 router.route('/states/:state/funfact')
     
     .get((req, res) => {
@@ -229,6 +229,6 @@ router.route('/states/:state')
         stateRequest();
         //res.json({ "state": req.params.state});
     })
+*/
 
 module.exports = router;
-
