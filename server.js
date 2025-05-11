@@ -23,7 +23,15 @@ app.use((req, res, next) => {
 
 console.log(__dirname);
 app.use('/', require('./routes/root'));
+/*
+app.all('*', (req, res) => {
+    res.status(404).send(404);
 
+//    if (req.accepts('html')) {
+//        res.sendFile(path.join(__dirname, '404.html'));
+//    }
+});
+*/
 
 
 /*
