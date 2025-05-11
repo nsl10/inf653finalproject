@@ -5,7 +5,8 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const connectDB = require('./config/dbConn')
+const connectDB = require('./config/dbConn');
+const bcrypt = require('bcrypt');
 
 //connect to mongoDB
 connectDB();
@@ -23,15 +24,18 @@ app.use((req, res, next) => {
 
 console.log(__dirname);
 app.use('/', require('./routes/root'));
-/*
-app.all('*', (req, res) => {
-    res.status(404).send(404);
 
-//    if (req.accepts('html')) {
-//        res.sendFile(path.join(__dirname, '404.html'));
-//    }
+app.all('/{*any}', (req, res) => {
+    res.status(404);
+    if (req.accepts('html')) {
+        res.sendFile(path.join(__dirname, '404.html'));
+    } else if (req.accepts('json')) {
+        res.json({ "error": "404 NOT FOUND" });
+    }else {
+        res.type('txt').send("404 NOT FOUND");
+    }
 });
-*/
+
 
 
 /*
