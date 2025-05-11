@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 
 
-/*
+
 router.route('/states/')
     .get((req, res) => {
         
@@ -17,7 +17,7 @@ router.route('/states/')
         const readRequest = async () => {
             try{
                 const data = await fsPromises.readFile(path.join(__dirname, '..', 'files', 'statesData.json'), 'utf8');
-                
+                myObj = JSON.parse(data);
                 res.send(data);
             }catch{
                 console.log('statesData file error');
@@ -79,7 +79,6 @@ router.route('/states/')
         
        //console.log('ran')
     });
-
 router.route('/states/:state/funfact')
     
     .get((req, res) => {
@@ -229,6 +228,6 @@ router.route('/states/:state')
         stateRequest();
         //res.json({ "state": req.params.state});
     })
-*/
 
 module.exports = router;
+
